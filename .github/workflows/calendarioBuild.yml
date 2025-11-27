@@ -1,0 +1,75 @@
+# .github/workflows/build-exe.yml
+
+name: Build Windows Executable
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller openpyxl pandas
+
+      - name: Find Python script automatically
+        id: find_script
+        run: |
+          $script = Get-ChildItem -Path . -Filter *.py | Where-Object { $_.Name -notlike "*test*" -and $_.Name -notlike "__*" } | Select-Object -First 1
+          if (-not $script) { exit 1 }
+          echo "SCRIPT_NAME=$($script.Name)" >> $env:GITHUB_OUTPUT
+          echo "Found script: $($script.Name)"
+        shell: pwsh
+
+      - name: Build executable with PyInstaller
+        run: |
+          pyinstaller --noconfirm `
+                      --onefile `
+                      --windowed `
+                      --name "Gerador_Calendario_Folgas" `
+                      --icon=icon.ico `
+                      --add-data "README.md;." `
+                      "${{ steps.find_script.outputs.SCRIPT_NAME }}"
+        shell: pwsh
+        continue-on-error: false
+
+      - name: Check if exe was created
+        run: |
+          if (!(Test-Path "dist\Gerador_Calendario_Folgas.exe")) {
+            Write-Error "EXE não foi gerado!"
+            exit 1
+          }
+          echo "EXE criado com sucesso!"
+
+      - name: Upload executable as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Gerador-Calendario-Folgas-Windows
+          path: dist/Gerador_Calendario_Folgas.exe
+
+      - name: Create Release (only on tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/Gerador_Calendario_Folgas.exe
+          generate_release_notes: true
+          draft: false
+          prerelease: false
