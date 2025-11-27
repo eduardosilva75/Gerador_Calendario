@@ -46,7 +46,6 @@ jobs:
                       --windowed `
                       --name "Gerador_Calendario_Folgas" `
                       --icon=icon.ico `
-                      --add-data "README.md;." `
                       "${{ steps.find_script.outputs.SCRIPT_NAME }}"
         shell: pwsh
         continue-on-error: false
