@@ -32,9 +32,9 @@ jobs:
         python --version
         pip list
         
-    - name: Criar executável
+    - name: Criar executável SEM consola
       run: |
-        pyinstaller --onefile --console --name "Gerador_Calendario_Folgas" geralClaude.py
+        pyinstaller --onefile --noconsole --name "Gerador_Calendario_Folgas" geralClaude.py
         dir dist\
         
     - name: Upload executável como artefacto
@@ -58,14 +58,18 @@ jobs:
           - 🇵🇹 Feriados de Portugal incluídos
           - 🎨 Cores para melhor visualização
           - 📊 Exportação para Excel
+          - 🪟 Interface limpa sem consola
           
           ## Como usar:
-          1. Execute o programa
+          1. Execute o programa (duplo clique)
           2. Escolha a semana de início do ciclo (1-12)
           3. O calendário será gerado automaticamente
+          4. O programa fecha automaticamente
           
           **Legenda de cores:**
           - 🔵 Azul: Folgas do ciclo
           - 🔴 Rosa: Feriados
           - 🟡 Amarelo: Fins de semana
           - ⚪ Branco: Dias de trabalho
+          
+          **Nota:** Esta versão não mostra a consola preta.
