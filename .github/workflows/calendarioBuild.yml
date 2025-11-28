@@ -34,7 +34,7 @@ jobs:
         
     - name: Criar executável SEM consola
       run: |
-        pyinstaller --onefile --noconsole --name "Gerador_Calendario_Folgas" geralClaude.py
+        pyinstaller --onefile --noconsole --name "Gerador_Calendario_Folgas" calendarioGeral.py
         dir dist\
         
     - name: Upload executável como artefacto
