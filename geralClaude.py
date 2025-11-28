@@ -10,7 +10,7 @@ class CalendarGenerator:
     def __init__(self, root):
         self.root = root
         self.root.title("Gerador de Calendário com Ciclos de Folgas")
-        self.root.geometry("900x600")
+        self.root.geometry("900x700")
         self.root.resizable(True, True)  # Permite redimensionar
         
         # Configurações padrão
@@ -60,7 +60,7 @@ class CalendarGenerator:
         left_frame.bind("<Configure>", on_frame_configure)
         
         # Título
-        titulo = ttk.Label(left_frame, text="Gerador de Calendário 2026", 
+        titulo = ttk.Label(left_frame, text="Gerador de Calendário", 
                           font=('Calibri', 16, 'bold'))
         titulo.grid(row=0, column=0, columnspan=3, pady=10)
         
@@ -117,46 +117,37 @@ class CalendarGenerator:
         # Separador
         ttk.Separator(left_frame, orient='horizontal').grid(row=5, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=15)
         
+        # CORREÇÃO: Mudar o row de 4 para 6
         # Seção de ciclos
         ttk.Label(left_frame, text="Configuração dos Ciclos de Folgas", 
-                 font=('Calibri', 12, 'bold')).grid(row=4, column=0, columnspan=3, pady=10)
+                font=('Calibri', 12, 'bold')).grid(row=6, column=0, columnspan=3, pady=10)  # MUDADO de row=4 para row=6
         
         # Frame para ciclos
         self.ciclos_frame = ttk.Frame(left_frame)
-        self.ciclos_frame.grid(row=5, column=0, columnspan=3, pady=10)
+        self.ciclos_frame.grid(row=7, column=0, columnspan=3, pady=10)  # MUDADO de row=5 para row=7
         
         self.ciclo_widgets = []
         self.criar_campos_ciclos()
         
         # Botões de gestão de ciclos
         btn_frame = ttk.Frame(left_frame)
-        btn_frame.grid(row=6, column=0, columnspan=3, pady=10)
+        btn_frame.grid(row=8, column=0, columnspan=3, pady=10)  # MUDADO de row=6 para row=8
         
         ttk.Button(btn_frame, text="+ Adicionar Ciclo", 
-                  command=self.adicionar_ciclo).pack(side=tk.LEFT, padx=5)
+                command=self.adicionar_ciclo).pack(side=tk.LEFT, padx=5)
         ttk.Button(btn_frame, text="- Remover Último", 
-                  command=self.remover_ciclo).pack(side=tk.LEFT, padx=5)
+                command=self.remover_ciclo).pack(side=tk.LEFT, padx=5)       
         
+        # CORREÇÃO: Mudar o row do separador final
         # Separador
-        ttk.Separator(left_frame, orient='horizontal').grid(row=7, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=15)
+        ttk.Separator(left_frame, orient='horizontal').grid(row=9, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=15)  # MUDADO de row=11 para row=9
         
-        # Cores
-        ttk.Label(left_frame, text="Cores (opcional)", 
-                 font=('Calibri', 12, 'bold')).grid(row=8, column=0, columnspan=3, pady=10)
-        
-        cores_frame = ttk.Frame(left_frame)
-        cores_frame.grid(row=9, column=0, columnspan=3)
-        
-        self.criar_seletores_cor(cores_frame)
-        
-        # Separador
-        ttk.Separator(left_frame, orient='horizontal').grid(row=11, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=15)
-        
+        # CORREÇÃO: Mudar o row do nome do ficheiro
         # Nome do ficheiro
-        ttk.Label(left_frame, text="Nome do ficheiro:").grid(row=12, column=0, sticky=tk.W, pady=5)
+        ttk.Label(left_frame, text="Nome do ficheiro:").grid(row=10, column=0, sticky=tk.W, pady=5)  # MUDADO de row=12 para row=10
         self.nome_var = tk.StringVar(value=f"Calendario_{self.ano}_Ciclo_{self.ciclo_inicial}")
         nome_entry = ttk.Entry(left_frame, textvariable=self.nome_var, width=30)
-        nome_entry.grid(row=12, column=1, columnspan=2, sticky=tk.W, pady=5)
+        nome_entry.grid(row=10, column=1, columnspan=2, sticky=tk.W, pady=5)  # MUDADO de row=12 para row=10
         
         # Coluna direita - Botão grande para gerar
         right_frame = ttk.Frame(self.root, padding="20")
