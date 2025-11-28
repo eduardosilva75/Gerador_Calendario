@@ -60,7 +60,7 @@ class CalendarGenerator:
         left_frame.bind("<Configure>", on_frame_configure)
         
         # Título
-        titulo = ttk.Label(left_frame, text="Gerador de Calendário", 
+        titulo = ttk.Label(left_frame, text="Gerador de Calendário 2026", 
                           font=('Calibri', 16, 'bold'))
         titulo.grid(row=0, column=0, columnspan=3, pady=10)
         
@@ -114,83 +114,85 @@ class CalendarGenerator:
         
         ttk.Label(feriado_frame, text="(ex: 14/6 Abrantes)", foreground='gray').pack(side=tk.LEFT, padx=5)
         
-                # ====================== SEPARADOR ======================
-        ttk.Separator(left_frame, orient='horizontal').grid(
-            row=5, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=20
-        )
-
-        # ============ CONFIGURAÇÃO DOS CICLOS DE FOLGAS ============
-        ttk.Label(left_frame, text="Configuração dos Ciclos de Folgas",
-                  font=('Calibri', 13, 'bold')).grid(
-            row=6, column=0, columnspan=3, pady=(25, 10)
-        )
-
-        # Frame onde aparecem os ciclos editáveis
+        # Separador
+        ttk.Separator(left_frame, orient='horizontal').grid(row=5, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=15)
+        
+        # Seção de ciclos
+        ttk.Label(left_frame, text="Configuração dos Ciclos de Folgas", 
+                 font=('Calibri', 12, 'bold')).grid(row=4, column=0, columnspan=3, pady=10)
+        
+        # Frame para ciclos
         self.ciclos_frame = ttk.Frame(left_frame)
-        self.ciclos_frame.grid(row=7, column=0, columnspan=3, pady=8, sticky=tk.W)
-
+        self.ciclos_frame.grid(row=5, column=0, columnspan=3, pady=10)
+        
         self.ciclo_widgets = []
-        self.criar_campos_ciclos()        # ← cria os 6 ciclos iniciais
-
-        # Botões + Adicionar / – Remover
+        self.criar_campos_ciclos()
+        
+        # Botões de gestão de ciclos
         btn_frame = ttk.Frame(left_frame)
-        btn_frame.grid(row=8, column=0, columnspan=3, pady=15)
-
-        ttk.Button(btn_frame, text="+ Adicionar Ciclo",
-                   command=self.adicionar_ciclo).pack(side=tk.LEFT, padx=8)
-        ttk.Button(btn_frame, text="- Remover Último",
-                   command=self.remover_ciclo).pack(side=tk.LEFT, padx=8)
-
-        # ====================== SEPARADOR ======================
-        '''ttk.Separator(left_frame, orient='horizontal').grid(
-            row=9, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=20
-        )'''
-
-        # ====================== CORES (OPCIONAL) ======================
-        '''ttk.Label(left_frame, text="Cores (opcional)",
-                  font=('Calibri', 13, 'bold')).grid(
-            row=10, column=0, columnspan=3, pady=(10, 10)
-        )
-
+        btn_frame.grid(row=6, column=0, columnspan=3, pady=10)
+        
+        ttk.Button(btn_frame, text="+ Adicionar Ciclo", 
+                  command=self.adicionar_ciclo).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="- Remover Último", 
+                  command=self.remover_ciclo).pack(side=tk.LEFT, padx=5)
+        
+        # Separador
+        ttk.Separator(left_frame, orient='horizontal').grid(row=7, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=15)
+        
+        # Cores
+        ttk.Label(left_frame, text="Cores (opcional)", 
+                 font=('Calibri', 12, 'bold')).grid(row=8, column=0, columnspan=3, pady=10)
+        
         cores_frame = ttk.Frame(left_frame)
-        cores_frame.grid(row=11, column=0, columnspan=3, pady=5)
-        self.criar_seletores_cor(cores_frame)'''
-
-        # ====================== SEPARADOR ======================
-        '''ttk.Separator(left_frame, orient='horizontal').grid(
-            row=12, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=20
-        )'''
-
-        # ====================== NOME DO FICHEIRO ======================
-        ttk.Label(left_frame, text="Nome do ficheiro:").grid(
-            row=13, column=0, sticky=tk.W, pady=(15, 5)
-        )
-
+        cores_frame.grid(row=9, column=0, columnspan=3)
+        
+        self.criar_seletores_cor(cores_frame)
+        
+        # Separador
+        ttk.Separator(left_frame, orient='horizontal').grid(row=11, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=15)
+        
+        # Nome do ficheiro
+        ttk.Label(left_frame, text="Nome do ficheiro:").grid(row=12, column=0, sticky=tk.W, pady=5)
         self.nome_var = tk.StringVar(value=f"Calendario_{self.ano}_Ciclo_{self.ciclo_inicial}")
-        nome_entry = ttk.Entry(left_frame, textvariable=self.nome_var, width=40)
-        nome_entry.grid(row=13, column=1, columnspan=2, sticky=tk.W, pady=(15, 5), padx=(8, 0))
+        nome_entry = ttk.Entry(left_frame, textvariable=self.nome_var, width=30)
+        nome_entry.grid(row=12, column=1, columnspan=2, sticky=tk.W, pady=5)
         
         # Coluna direita - Botão grande para gerar
         right_frame = ttk.Frame(self.root, padding="20")
         right_frame.grid(row=0, column=2, sticky=(tk.N, tk.S, tk.E), padx=10, pady=10)
         
-        # Botão grande e visível
+        # Botão gerar com ciclos
         generate_btn = tk.Button(right_frame, 
-                                text="🗓️\nGerar\nCalendário",
+                                text="🗓️\nGerar\ncom Ciclos",
                                 command=self.gerar_calendario,
                                 font=('Calibri', 14, 'bold'),
                                 bg='#4CAF50',
                                 fg='white',
                                 width=12,
-                                height=8,
+                                height=6,
                                 relief=tk.RAISED,
                                 borderwidth=3,
                                 cursor='hand2')
-        generate_btn.pack(pady=20)
+        generate_btn.pack(pady=10)
+        
+        # Botão gerar sem ciclos
+        generate_no_cycles_btn = tk.Button(right_frame, 
+                                          text="📅\nGerar\nsem Ciclos",
+                                          command=self.gerar_calendario_sem_ciclos,
+                                          font=('Calibri', 14, 'bold'),
+                                          bg='#2196F3',
+                                          fg='white',
+                                          width=12,
+                                          height=6,
+                                          relief=tk.RAISED,
+                                          borderwidth=3,
+                                          cursor='hand2')
+        generate_no_cycles_btn.pack(pady=10)
         
         # Preview info
         info_label = ttk.Label(right_frame, 
-                              text="Configura os ciclos\nà esquerda e clica\npara gerar o Excel",
+                              text="Configura os ciclos\nà esquerda e escolhe\no tipo de calendário",
                               font=('Calibri', 9),
                               foreground='gray',
                               justify=tk.CENTER)
@@ -308,10 +310,30 @@ class CalendarGenerator:
             if not nome_ficheiro.endswith('.xlsx'):
                 nome_ficheiro += '.xlsx'
             
-            # Gerar calendário
-            self.criar_calendario_excel(ano, ciclo_inicial, nome_ficheiro)
+            # Gerar calendário com ciclos
+            self.criar_calendario_excel(ano, ciclo_inicial, nome_ficheiro, com_ciclos=True)
             
-            messagebox.showinfo("Sucesso", f"Calendário gerado com sucesso!\n{nome_ficheiro}")
+            messagebox.showinfo("Sucesso", f"Calendário com ciclos gerado!\n{nome_ficheiro}")
+            
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao gerar calendário:\n{str(e)}")
+    
+    def gerar_calendario_sem_ciclos(self):
+        try:
+            ano = self.ano_var.get()
+            nome_ficheiro = self.nome_var.get()
+            
+            # Ajustar nome se tiver "Ciclo"
+            if "Ciclo" in nome_ficheiro:
+                nome_ficheiro = nome_ficheiro.split("_Ciclo")[0]
+            
+            if not nome_ficheiro.endswith('.xlsx'):
+                nome_ficheiro += '.xlsx'
+            
+            # Gerar calendário sem ciclos
+            self.criar_calendario_excel(ano, 1, nome_ficheiro, com_ciclos=False)
+            
+            messagebox.showinfo("Sucesso", f"Calendário sem ciclos gerado!\n{nome_ficheiro}")
             
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao gerar calendário:\n{str(e)}")
@@ -334,7 +356,7 @@ class CalendarGenerator:
         dia = ((h + l - 7 * m + 114) % 31) + 1
         return date(ano, mes, dia)
     
-    def criar_calendario_excel(self, ano, ciclo_inicial, nome_ficheiro):
+    def criar_calendario_excel(self, ano, ciclo_inicial, nome_ficheiro, com_ciclos=True):
         # Calcular Páscoa e datas móveis
         pascoa = self.calcular_pascoa(ano)
         sexta_santa = pascoa - timedelta(days=2)
@@ -381,19 +403,11 @@ class CalendarGenerator:
         except:
             pass  # Ignora se data inválida
         
-        # Adicionar feriado municipal se definido
-        try:
-            dia_municipal = self.feriado_dia_var.get()
-            mes_municipal = self.feriado_mes_var.get()
-            if 1 <= dia_municipal <= 31 and 1 <= mes_municipal <= 12:
-                feriado_municipal = date(ano, mes_municipal, dia_municipal)
-                if feriado_municipal not in FERIADOS_PT:
-                    FERIADOS_PT.append(feriado_municipal)
-        except:
-            pass  # Ignora se data inválida
-        
-        # Calcular folgas
-        folgas = self.calcular_folgas_ano(ano, ciclo_inicial)
+        # Calcular folgas apenas se com_ciclos=True
+        if com_ciclos:
+            folgas = self.calcular_folgas_ano(ano, ciclo_inicial)
+        else:
+            folgas = set()  # Conjunto vazio - sem folgas
         
         # Criar workbook
         wb = Workbook()
@@ -489,14 +503,20 @@ class CalendarGenerator:
         for l in range(2, ws.max_row + 1):
             ws.row_dimensions[l].height = 26
         
-        # Configurar para impressão em A4 - uma página
+        # Configurar para impressão em A4 - uma página centralizada
         ws.page_setup.paperSize = ws.PAPERSIZE_A4
         ws.page_setup.orientation = ws.ORIENTATION_PORTRAIT
         ws.page_setup.fitToPage = True
         ws.page_setup.fitToHeight = 1
         ws.page_setup.fitToWidth = 1
         ws.print_area = f'A1:{get_column_letter(ws.max_column)}{ws.max_row}'
-        ws.page_margins.left = 0.3
+        
+        # Centralizar na página
+        ws.page_setup.horizontalCentered = True
+        ws.page_setup.verticalCentered = True
+        
+        # Margens
+        ws.page_margins.left = 0.6
         ws.page_margins.right = 0.3
         ws.page_margins.top = 0.5
         ws.page_margins.bottom = 0.5
